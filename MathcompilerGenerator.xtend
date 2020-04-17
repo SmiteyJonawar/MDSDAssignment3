@@ -31,7 +31,7 @@ class MathcompilerGenerator extends AbstractGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val math = resource.allContents.filter(MathExps).next
 		
-		fsa.generateFile("MathCompiler.java", math.generateMathCode)
+		fsa.generateFile("MathComputation.java", math.generateMathCode)
 	}
 	
 	def CharSequence generateMathCode(MathExps exps){
