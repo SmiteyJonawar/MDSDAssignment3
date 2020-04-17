@@ -1,0 +1,43 @@
+grammar smitey.Mathcompiler with org.eclipse.xtext.common.Terminals
+
+generate mathcompiler "http://www.Mathcompiler.smitey"
+
+MathExps:
+	mathexps+=(MathExp)+
+;
+
+MathExp:
+	'result' line=Label 'is' exp=Exp
+;
+
+Exp returns Expression:
+	Factor (('+' {Plus.left=current} | '-' {Minus.left=current}) right=Factor)*
+;
+
+Factor returns Expression:
+	Primary (('*' {Mult.left=current} | '/' {Div.left=current}) right=Primary)*	
+;
+
+Primary returns Expression:
+	Number | Parenthesis | VariableBinding | VariableUse
+;
+
+VariableUse returns Expression:
+	{Var} id=ID
+;
+
+VariableBinding returns Expression:
+	{Let} 'let' id=ID '=' binding=Exp 'in' body=Exp 'end'
+;
+
+Parenthesis returns Expression:
+	'(' Exp ')'
+;
+
+Number returns Expression:
+	{Num} value=INT
+;
+
+Label:
+	STRING
+;
